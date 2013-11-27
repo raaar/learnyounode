@@ -18,6 +18,8 @@ function sortIt ( path , ext) {
 
 }
 
+
+/* My version */
 /*
 
 var fs = require('fs')

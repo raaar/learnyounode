@@ -1,6 +1,30 @@
 var fs = require('fs')
 
-var list = function( directory , extention , callback) {
+var list = function( dir , ext, callback ) {
+
+	var regex = new RegExp(ext , "gm" );
+
+
+	fs.readdir( dir , function( err , filelist ){
+			if(err) {
+				return callback(err);
+			}
+
+			filelist.forEach(function (entry){
+				if ( regex.test(entry) ) {
+					console.log(entry);
+				}
+			});
+			var raf = "raf"
+			return callback(raf);
+
+	});	
+
+
+
+
+
+	/*
 	if(err) {
 
 		return callback(err);
@@ -17,7 +41,10 @@ var list = function( directory , extention , callback) {
 		})	
 				
 	}
+
+	*/
     	
+
 	    
 }
 
