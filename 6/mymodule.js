@@ -7,7 +7,7 @@ var list = function( dir , ext, callback ) {
 
 	fs.readdir( dir , function( err , filelist ){
 			if(err) {
-				return callback(err);
+				return callback(err, filelist);
 			}
 
 			filelist.forEach(function (entry){
@@ -16,7 +16,7 @@ var list = function( dir , ext, callback ) {
 				}
 			});
 			var raf = "raf"
-			return callback(raf);
+			return callback( filelist );
 
 	});	
 
