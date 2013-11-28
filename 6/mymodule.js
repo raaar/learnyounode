@@ -1,50 +1,34 @@
-var fs = require('fs')
-
 var list = function( dir , ext, callback ) {
-
-	var regex = new RegExp(ext , "gm" );
-
+	var fs = require('fs')
+	var regex = new RegExp('\\.' + ext + "$" );
 
 	fs.readdir( dir , function( err , filelist ){
-			if(err) {
-				return callback(err, filelist);
+			if(err){
+				return callback(err);
 			}
 
+			/* 	Loop through the list, and grab the needed entries by testing the array
+				with the regular expression...
+			*/ 
+			/*
+			var selectedItems = [];
 			filelist.forEach(function (entry){
 				if ( regex.test(entry) ) {
-					console.log(entry);
+					selectedItems.push(entry);
 				}
 			});
-			var raf = "raf"
-			return callback( filelist );
+			*/
+			/*
+				...However I can use the "filter method" to automatically filter the regular expression.
+				Shorter and easier
+			*/
+			selectedItems = filelist.filter(function(file){
+				return regex.test(file);
+			})
+
+			return callback( null , selectedItems );
 
 	});	
-
-
-
-
-
-	/*
-	if(err) {
-
-		return callback(err);
-
-	} else {
-
-		var regex = new RegExp('\\.' + extention + '$')
-				  
-		fs.readdir( directory, function (err, list) {
-			list.forEach(function (file) {
-			   	if (regex.test(file))
-				    console.log(file)
-			})
-		})	
-				
-	}
-
-	*/
-    	
-
 	    
 }
 

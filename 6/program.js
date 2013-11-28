@@ -2,7 +2,16 @@ var mymodule = require('./mymodule.js');
 
 var list = process.argv[2];
 var ext = process.argv[3];
-//var message = "no can do";
-mymodule( list , ext , function(message){
-	console.log(message);
+
+mymodule( list , ext , function(err , items){
+	if(err) {
+		console.log("error type: " +  err );
+	}
+
+	items.forEach(function(entry) {
+		console.log(entry);
+	})
+	
 });
+
+
