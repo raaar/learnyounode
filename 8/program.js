@@ -1,15 +1,18 @@
+/* 
+	SOLUTION NUMBER ONE
+*/
+
 var http = require('http');
 var url = process.argv[2];
 
-console.log('url: ' + url);
+//console.log('url: ' + url);
 
-var req = http.get( url , function(res) {
-	//res.setEncoding("utf8");
+http.get( url , function(res) {
 
+	res.setEncoding("utf8");
+	var words = [];
 	res.on("data" , function(item){
-
-		//console.log(item.length - 1);
-		console.log(item);
+		words.push(item);
 	});
 
 	res.on("error" , function(e){
@@ -17,7 +20,9 @@ var req = http.get( url , function(res) {
 	});
 
 	res.on("end" , function(){
-		console.log("end");
+		var poem = words.join("");
+		console.log(poem.length);
+		console.log(poem);
 	})
 });
 
