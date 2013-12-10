@@ -1,44 +1,33 @@
-var readurl = require('./readurl.js');
-
 var http = require('http');
+var bl = require('bl');
 
-var url_one = process.argv[2];
-var url_two = process.argv[3]; 
-var url_three = process.argv[4]; 
-
-//var bl = require('bl');
-
-var urls = [ url_one , url_two , url_three  ];
-
-//http://howtonode.org/control-flow
-
-/*
-	Control Flow resource that led me to this solution
-	http://book.mixu.net/node/ch7.html
-*/
-
+var count = 0;
 var results = [];
 
-function async(arg, callback) {
-	setTimeout(function() { 
+function getHttp(index){
+	http.get(process.argv[2 + index]  , function (res) {
+		res.pipe(bl(function (err, data) { 
+			if(err)
+				return console.error(data);
+			
+			results[index] = data.toString();
 
-		readurl(arg, function(poem){
-			callback(poem);
-		});
 
-	}, 1000);
+			count++;
+			if(count === 3) {
+				publish();
+			}
+
+		}));
+	});	
 }
 
-function final(){};
-
-
-function read(url) {
-	if(url){
-		async(url, function(poem){
-			results.push(poem);
-			console.log(poem);
-			return read(urls.shift());
-		});
-	}
+function publish(){
+	for(i = 0 ; i < 3 ; i++ ) 
+		console.log(results[i]);
 }
-read(urls.shift());
+
+
+for(i = 0 ; i < 3 ; i++) 
+	getHttp(i);	
+
