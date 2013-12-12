@@ -1,33 +1,33 @@
 var http = require('http');
 var bl = require('bl');
 
-var count = 0;
-var results = [];
+count = 0;
+results = [];
 
-function getHttp(index){
-	http.get(process.argv[2 + index]  , function (res) {
-		res.pipe(bl(function (err, data) { 
-			if(err)
+
+function show() {
+	//console.log(results[0]);
+	//console.log(results[1]);
+	console.log(results[0]);
+
+}
+
+function getItems (item) {
+	http.get(process.argv[3 + item], function(res){
+		res.pipe(bl(function (err, data){
+			if (err) 
 				return console.error(data);
-			
-			results[index] = data.toString();
-
-
-			count++;
-			if(count === 3) {
-				publish();
-			}
-
+			//results[item] = data.toString();
+			results[item] = data.toString();
+			//console.log(data.toString());
+			if (count === 1) 
+				show();
+				console.log(results)
 		}));
-	});	
-}
-
-function publish(){
-	for(i = 0 ; i < 3 ; i++ ) 
-		console.log(results[i]);
+	})
 }
 
 
-for(i = 0 ; i < 3 ; i++) 
-	getHttp(i);	
-
+for( count ; count < 2 ; count++) {
+	getItems(count);
+}
